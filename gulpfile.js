@@ -10,15 +10,15 @@ var filter = require('gulp-filter')
 
 gulp.task('del', function() {
   return gulp
-    .src(['sassDir/**/*.css', './build/css']) // 需要删除生成后的文件. gulp 不能覆盖
+    .src(['sass/**/*.css', './build/css']) // 需要删除生成后的文件. gulp 不能覆盖
     .pipe(clean())
 })
 
 gulp.task('sass', ['del'], function() {
-  return gulp.src('./sassDir/style/*.scss')
+  return gulp.src('./sass/style/*.scss')
     .pipe(compass({
       config_file: path.join(process.cwd(), 'config.rb'),
-      project: path.join(process.cwd(), '/sassDir'),
+      project: path.join(process.cwd(), '/sass'),
       css: './',
       sass: 'style',
       import_path: './',
@@ -33,7 +33,7 @@ gulp.task('sass', ['del'], function() {
 gulp.task('sassbuild', ['sass'], function() {
   var cssfilter = filter('**/*.css')
   return gulp
-    .src(['sassDir/*.css', 'sassDir/*/*.png'])
+    .src(['sass/*.css', 'sass/*/*.png'])
     .pipe(cssfilter)
     .pipe(minifyCSS({
       keepSpecialComments: 0,
