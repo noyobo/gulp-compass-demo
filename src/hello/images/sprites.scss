@@ -1,0 +1,12 @@
+@import "compass/utilities/sprites";
+@import "hello/images/i/*.png";
+// @include all-i-sprites;
+@mixin my-sprite($name) {
+    @include i-sprite($name);
+    height: i-sprite-height($name);
+    width: i-sprite-width($name);
+}
+
+.fav{
+  @include my-sprite('fav')
+}

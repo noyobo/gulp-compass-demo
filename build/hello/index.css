@@ -1,0 +1,11 @@
+.i-sprite, .fav {
+  background-image: url('images/i-s882d90c716.png');
+  background-repeat: no-repeat; }
+
+.fav {
+  background-position: 0 -8px;
+  height: 18px;
+  width: 18px; }
+
+div {
+  padding: 0 10px; }

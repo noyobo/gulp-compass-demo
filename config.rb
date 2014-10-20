@@ -1,3 +1,3 @@
-images_dir = './'
+images_dir = 'src'
 line_comments = false
 output_style = (environment == :development) ? :expanded : :compressed
