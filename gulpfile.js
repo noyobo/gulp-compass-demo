@@ -7,6 +7,7 @@ var compass = require('gulp-compass')
 var copy = require('gulp-copy')
 var minifyCSS = require('gulp-minify-css')
 var filter = require('gulp-filter')
+var map = require('map-stream')
 
 gulp.task('del', function() {
   return gulp
@@ -27,10 +28,15 @@ gulp.task('sass', ['del'], function() {
     .on('end', function() {
       console.log('compass 编译完成')
     })
+    .pipe(map(function(file, done){
+      console.log(file.path)
+      done(null, file)
+    }))
+    .pipe(gulp.dest('hehe'))
 });
 
 
-gulp.task('sassbuild', ['sass'], function() {
+gulp.task('build', ['sass'], function() {
   var cssfilter = filter('**/*.css')
   return gulp
     .src(['sass/*.css', 'sass/*/*.png'])
