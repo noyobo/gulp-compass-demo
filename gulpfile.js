@@ -22,12 +22,13 @@ gulp.task('sass', ['del'], function() {
   return gulp.src(['src/*/*.scss', '!src/*/sprites.scss'])
     .pipe(compass({
       // config_file: path.join(process.cwd(), 'config.rb'),
-      project: path.join(process.cwd()),
+      project: process.cwd(),
       css: './buildTemp', // compass 生成css目录
       sass: 'src',
-      time: true,
       import_path: './',
+      time: true,
       debug: false,
+      relative: false,
       style: 'nested' //nested, expanded, compact, or compressed.
     }))
     .on('end', function() {
@@ -37,7 +38,7 @@ gulp.task('sass', ['del'], function() {
 
 gulp.task('temp', ['sass'], function() {
   return gulp
-    .src(['src/*/images/*.png'])
+    .src(['src/*/images/*.*'])
     .pipe(copy('./buildTemp/', {
       prefix: 1
     }))
@@ -49,13 +50,7 @@ gulp.task('build', ['temp'], function(done) {
     .pipe(map(function(file, done) {
       if (path.extname(file.path) === '.css') {
         var contents = String(file.contents)
-        var imgReg = (/url(?: )?\((?:'|")([^\'\"]+)(?:'|")\)/gm)
-        var imgPathOld = imgReg.exec(contents)[1]
-        var imgPath = imgPathOld.replace("/src/", "/buildTemp/")
-        var a = path.dirname(file.path) // 取得CSS所在路径
-        var b = path.resolve(a, imgPath) // 图片的绝对地址
-        var c = path.relative(a, b)
-        contents = contents.replace(imgPathOld, c)
+        contents = contents.replace('/src/', '/')
         if (!(contents instanceof Buffer)) {
           contents = new Buffer(contents);
         }
@@ -66,13 +61,5 @@ gulp.task('build', ['temp'], function(done) {
     .pipe(gulp.dest('./build'))
     .on('end', function() {
       console.log('build complete')
-      del('./buildTemp', function(err){
-        if (err) {throw new Error(err)};
-        console.log('clean buildTemp')
-        exec('compass clean', function(error, stdout, stderr){
-          if (error) { throw new Error(error)};
-          console.log(stdout)
-        })
-      })
     })
 })
