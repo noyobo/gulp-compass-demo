@@ -1,0 +1,9 @@
+@import "compass";
+
+.abc{
+	background: red url(../images/fav.png) no-repeat 0 0
+}
+
+.abcd{
+	background-image: inline-image("hello/images/faved.png")
+}

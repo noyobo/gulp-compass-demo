@@ -1,0 +1,5 @@
+.abc {
+  background: red url(..\images\fav.png) no-repeat 0 0; }
+
+.abcd {
+  background: red url("../images/faved.png") no-repeat 0 0; }

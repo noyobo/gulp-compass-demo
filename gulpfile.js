@@ -19,7 +19,7 @@ gulp.task('del', function() {
 })
 
 gulp.task('sass', ['del'], function() {
-  return gulp.src(['src/*/*.scss', '!src/*/sprites.scss'])
+  return gulp.src(['src/**/*.scss', '!src/*/_*.scss'])
     .pipe(compass({
       // config_file: path.join(process.cwd(), 'config.rb'),
       project: path.join(process.cwd()),
@@ -45,11 +45,11 @@ gulp.task('temp', ['sass'], function() {
 
 gulp.task('build', ['temp'], function(done) {
   return gulp
-    .src(['buildTemp/**/*.*'])
+    .src(['buildTemp/**/*/*.*'])
     .pipe(map(function(file, done) {
       if (path.extname(file.path) === '.css') {
         var contents = String(file.contents)
-        var imgReg = (/url(?: )?\((?:'|")([^\'\"]+)(?:'|")\)/gm)
+        var imgReg = (/url(?: )?\((?:'|")?([^\'\"]+\.png|gif|jpg|jpge)(?:'|")?\)/gm)
         var imgPathOld = imgReg.exec(contents)[1]
         var imgPath = imgPathOld.replace("/src/", "/buildTemp/")
         var a = path.dirname(file.path) // 取得CSS所在路径
